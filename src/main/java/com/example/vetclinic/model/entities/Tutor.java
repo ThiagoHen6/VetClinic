@@ -13,10 +13,17 @@ public class Tutor {
     private Long id;
     private String nome;
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "tutor",cascade = CascadeType.ALL)
     @JoinColumn(name="endereco_id")
     private Endereco endereco;
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
     private List<Animal> animais;
+    @ManyToMany
+    @JoinTable(
+            name = "veterinarios_preferidos",
+            joinColumns = @JoinColumn(name = "tutor_id"),
+            inverseJoinColumns = @JoinColumn(name = "veterinario_id")
+    )
+    private List<Veterinario> veterinariosPreferidos;
 
 }

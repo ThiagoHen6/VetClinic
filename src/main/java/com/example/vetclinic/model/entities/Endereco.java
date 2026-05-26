@@ -1,9 +1,6 @@
 package com.example.vetclinic.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -17,6 +14,9 @@ public class Endereco {
     private String cep;
     private String rua;
     private String numero;
+    @OneToOne
+    @JoinColumn(name = "tutor_id")
+    private Tutor tutor;
 
 
 }

@@ -3,6 +3,8 @@ package com.example.vetclinic.model.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Animal {
@@ -16,4 +18,8 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name="id_tutor")
     private Tutor tutor;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Consulta> consultas;
+
 }
