@@ -13,4 +13,6 @@ public class ConsultaResponseDTO {
     private String status;
     private Long animalId;
     private Long veterinarioId;
+    private String petName;
+    private String veterinarioNome;
 }

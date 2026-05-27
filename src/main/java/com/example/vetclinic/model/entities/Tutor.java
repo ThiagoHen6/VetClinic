@@ -14,7 +14,6 @@ public class Tutor {
     private String nome;
     private String email;
     @OneToOne(mappedBy = "tutor",cascade = CascadeType.ALL)
-    @JoinColumn(name="endereco_id")
     private Endereco endereco;
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
     private List<Animal> animais;
