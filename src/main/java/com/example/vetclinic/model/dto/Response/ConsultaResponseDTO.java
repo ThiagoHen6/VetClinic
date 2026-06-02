@@ -1,5 +1,6 @@
 package com.example.vetclinic.model.dto.Response;
 
+import com.example.vetclinic.model.entities.StatusConsulta;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public class ConsultaResponseDTO {
     private Long id;
     private LocalDate data;
     private LocalTime hora;
-    private String status;
+    private StatusConsulta status;
     private Long animalId;
     private Long veterinarioId;
     private String petName;

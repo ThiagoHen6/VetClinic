@@ -1,5 +1,6 @@
 package com.example.vetclinic.model.dto.Request;
 
+import com.example.vetclinic.model.entities.StatusConsulta;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -12,7 +13,8 @@ public class ConsultaRequestDTO {
     private LocalDate data;
     @NotNull(message = "Hora é obrigatória")
     private LocalTime hora;
-    private String status;
+    @NotNull(message = "Status é obrigatório")
+    private StatusConsulta status;
     @NotNull(message = "Animal é obrigatório")
     private Long animalId;
     @NotNull(message = "Veterinário é obrigatório")

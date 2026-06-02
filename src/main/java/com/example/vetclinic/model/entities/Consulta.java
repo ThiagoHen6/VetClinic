@@ -14,7 +14,8 @@ public class Consulta {
     private Long id;
     private LocalDate dataConsulta;
     private LocalTime horaConsulta;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusConsulta status;
 
     @ManyToOne
     @JoinColumn(name = "animal_id")

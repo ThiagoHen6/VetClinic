@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     Page<Consulta> findByAnimalId(Long id, Pageable pageable);
+    Page<Consulta> findByVeterinarioId(Long id, Pageable pageable);
 }
