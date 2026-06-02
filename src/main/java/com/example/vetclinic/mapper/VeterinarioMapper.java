@@ -1,6 +1,7 @@
 package com.example.vetclinic.mapper;
 
 import com.example.vetclinic.model.dto.Request.VeterinarioRequestDTO;
+import com.example.vetclinic.model.dto.Response.VeterinarioResponseDTO;
 import com.example.vetclinic.model.entities.Veterinario;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,8 @@ public class VeterinarioMapper {
         return v;
     }
 
-    public VeterinarioRequestDTO toResponse(Veterinario v) {
-        VeterinarioRequestDTO dto = new VeterinarioRequestDTO();
+    public VeterinarioResponseDTO toResponse(Veterinario v) {
+        VeterinarioResponseDTO dto = new VeterinarioResponseDTO();
         dto.setEspecialidades(v.getEspecialidades());
         dto.setNome(v.getNome());
         return dto;
