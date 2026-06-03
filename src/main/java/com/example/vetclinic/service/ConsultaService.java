@@ -1,10 +1,13 @@
 package com.example.vetclinic.service;
 
+import com.example.vetclinic.exception.AnimalNaoPertenceAoTutorException;
 import com.example.vetclinic.exception.EntidadeNaoEncontradaException;
+import com.example.vetclinic.exception.EspecialidadeIncompativelException;
+import com.example.vetclinic.exception.VeterinarioIndisponivelException;
 import com.example.vetclinic.mapper.ConsultaMapper;
+import com.example.vetclinic.model.dto.Request.ConsultaRequestDTO;
 import com.example.vetclinic.model.dto.Response.ConsultaResponseDTO;
-import com.example.vetclinic.model.entities.Consulta;
-import com.example.vetclinic.model.entities.StatusConsulta;
+import com.example.vetclinic.model.entities.*;
 import com.example.vetclinic.repository.AnimalRepository;
 import com.example.vetclinic.repository.ConsultaRepository;
 import com.example.vetclinic.repository.TutorRepository;
@@ -49,6 +52,28 @@ public class ConsultaService {
         return consultaMapper.toResponse(consultaAtualizada);
     }
 
+    public ConsultaResponseDTO agendarConsulta(ConsultaRequestDTO dto, Long tutorId) {
+        Tutor tutor = tutorRepository.findById(tutorId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tutor não encontrado"));
+        Animal animal = animalRepository.findById(dto.getAnimalId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Animal não encontrado"));
+        Veterinario veterinario = veterinarioRepository.findById(dto.getVeterinarioId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Veterinário não encontrado"));
 
 
+        if(!veterinario.getEspecialidades().contains(animal.getTipo())) {
+            throw new EspecialidadeIncompativelException("Veterinário não é especializado para atender este tipo de animal");
+        }
+        if (!animal.getTutor().getId().equals(tutor.getId())) {
+            throw new AnimalNaoPertenceAoTutorException("Este animal não pertence a este tutor");
+        }
+        if (consultaRepository.existsByVeterinarioIdAndDataConsultaAndHoraConsulta(veterinario.getId(), dto.getData(), dto.getHora())) {
+            throw new VeterinarioIndisponivelException("Veterinário já possui consulta agendada para este horário");
+        }
+
+        Consulta consulta = consultaMapper.toEntity(dto);
+        consulta.setAnimal(animal);
+        consulta.setVeterinario(veterinario);
+        return consultaMapper.toResponse(consultaRepository.save(consulta));
+    }
 }

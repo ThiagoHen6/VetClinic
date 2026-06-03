@@ -16,7 +16,7 @@ public class Animal {
     private TipoAnimal tipo;
     private String race;
     @ManyToOne
-    @JoinColumn(name="id_tutor")
+    @JoinColumn(name="tutor_id")
     private Tutor tutor;
 
     @OneToMany(mappedBy = "animal")

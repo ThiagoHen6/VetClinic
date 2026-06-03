@@ -25,4 +25,13 @@ public class Consulta {
     @JoinColumn(name = "veterinario_id")
     private Veterinario veterinario;
 
+    public Consulta(LocalDate dataConsulta, LocalTime horaConsulta, StatusConsulta status, Animal animal, Veterinario veterinario) {
+        this.dataConsulta = dataConsulta;
+        this.horaConsulta = horaConsulta;
+        this.status = status;
+        this.animal = animal;
+        this.veterinario = veterinario;
+    }
+
+    public Consulta() {}
 }
