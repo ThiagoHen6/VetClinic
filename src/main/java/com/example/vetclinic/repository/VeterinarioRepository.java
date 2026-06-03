@@ -8,5 +8,4 @@ import java.util.Date;
 
 @Repository
 public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> {
-    boolean existsByVeterinarioIdAndDataConsultaAndHoraConsulta(Long id, Date dataConsulta, Date horaConsulta);
 }
