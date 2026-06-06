@@ -34,7 +34,7 @@ public class ConsultaController {
         return ResponseEntity.status(201).body(consultaService.agendarConsulta(consultaRequestDTO, tutorId));
     }
 
-    @PutMapping("/consultas/{id}/status}")
+    @PutMapping("/consultas/{id}/status")
     public ResponseEntity<ConsultaResponseDTO> atualizar(@PathVariable Long id,
                                                          @RequestParam StatusConsulta status) {
         return ResponseEntity.ok(consultaService.atualizarConsulta(id, status));

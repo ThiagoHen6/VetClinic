@@ -18,6 +18,7 @@ public class VeterinarioMapper {
         VeterinarioResponseDTO dto = new VeterinarioResponseDTO();
         dto.setEspecialidades(v.getEspecialidades());
         dto.setNome(v.getNome());
+        dto.setId(v.getId());
         return dto;
     }
 }

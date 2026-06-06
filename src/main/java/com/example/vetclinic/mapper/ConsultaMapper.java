@@ -22,6 +22,9 @@ public class ConsultaMapper {
         dto.setStatus(c.getStatus());
         dto.setAnimalId(c.getAnimal().getId());
         dto.setVeterinarioId(c.getVeterinario().getId());
+        dto.setId(c.getId());
+        dto.setPetName(c.getAnimal().getPetName());
+        dto.setVeterinarioNome(c.getVeterinario().getNome());
         return dto;
     }
 }
