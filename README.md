@@ -1,93 +1,126 @@
-# VetClinic
+# 🐾 VetClinic API
 
+API REST para gerenciamento de clínica veterinária, desenvolvida com Spring Boot.
 
+## 📋 Sobre o Projeto
 
-## Getting started
+O VetClinic permite o cadastro de tutores e seus pets, além de agendamento de consultas com validações de negócio, como verificação de disponibilidade do veterinário e compatibilidade de especialidade com o tipo de animal.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## ✨ Funcionalidades
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Cadastro de **Tutores** com endereço
+- Cadastro de **Animais** vinculados a um tutor
+- Cadastro de **Veterinários** com especialidades por tipo de animal
+- **Agendamento de Consultas** com as seguintes validações:
+  - Verifica se o veterinário está disponível no horário solicitado
+  - Verifica se o animal pertence ao tutor informado
+  - Verifica se o veterinário possui especialidade para o tipo de animal
+- Atualização de **status da consulta** (AGENDADA, CONCLUIDA, CANCELADA)
+- Documentação interativa dos endpoints via **Swagger UI**
 
-## Add your files
+## 🐶 Tipos de Animal Suportados
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+- Cachorro
+- Gato
+- Réptil
+- Pássaro
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Java 21**
+- **Spring Boot 3**
+- **Spring Data JPA**
+- **MySQL**
+- **Lombok**
+- **Swagger / OpenAPI 3**
+- **Bean Validation**
+
+## 🏗️ Arquitetura
+
+O projeto segue uma arquitetura em camadas:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/thiago-group3/vetclinic.git
-git branch -M main
-git push -uf origin main
+controller  →  service  →  repository  →  banco de dados
+     ↕              ↕
+    DTO          entities
+     ↕
+  mapper
 ```
 
-## Integrate with your tools
+- **Controllers** — recebem as requisições HTTP e retornam respostas
+- **Services** — contêm as regras de negócio
+- **Repositories** — acesso ao banco de dados via Spring Data JPA
+- **DTOs** — objetos de transferência de dados (Request e Response separados)
+- **Mappers** — conversão entre entidades e DTOs
+- **GlobalExceptionHandler** — tratamento centralizado de exceções via `@ControllerAdvice`
 
-* [Set up project integrations](https://gitlab.com/thiago-group3/vetclinic/-/settings/integrations)
+## 📡 Endpoints
 
-## Collaborate with your team
+### Tutor
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/tutores` | Cadastrar tutor |
+| GET | `/tutores` | Listar tutores |
+| GET | `/tutores/{id}` | Buscar tutor por ID |
+| PUT | `/tutores/{id}` | Atualizar tutor |
+| DELETE | `/tutores/{id}` | Remover tutor |
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Animal
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/tutores/{tutorId}/animais` | Cadastrar animal |
+| GET | `/tutores/{tutorId}/animais` | Listar animais do tutor |
+| PUT | `/tutores/{tutorId}/animais/{id}` | Atualizar animal |
+| DELETE | `/tutores/{tutorId}/animais/{id}` | Remover animal |
 
-## Test and Deploy
+### Veterinário
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/veterinarios` | Cadastrar veterinário |
+| GET | `/veterinarios` | Listar veterinários |
+| PUT | `/veterinarios/{id}` | Atualizar veterinário |
+| DELETE | `/veterinarios/{id}` | Remover veterinário |
 
-Use the built-in continuous integration in GitLab.
+### Consulta
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/consultas` | Agendar consulta |
+| GET | `/consultas` | Listar consultas |
+| PUT | `/consultas/{id}/status` | Atualizar status da consulta |
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## 🚀 Como Executar
 
-***
+### Pré-requisitos
+- Java 21+
+- MySQL
+- Maven
 
-# Editing this README
+### Configuração
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. Clone o repositório:
+```bash
+git clone https://github.com/ThiagoHen6/VetClinic.git
+cd VetClinic
+```
 
-## Suggestions for a good README
+2. Configure o banco de dados em `src/main/resources/application.properties`:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/vetclinic
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+spring.jpa.hibernate.ddl-auto=update
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+3. Execute a aplicação:
+```bash
+./mvnw spring-boot:run
+```
 
-## Name
-Choose a self-explaining name for your project.
+4. Acesse a documentação Swagger:
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## 👨‍💻 Autor
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Feito por [Thiago](https://github.com/ThiagoHen6) como projeto de portfólio para praticar desenvolvimento back-end com Spring Boot.
